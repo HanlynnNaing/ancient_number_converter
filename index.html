@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abyss Protocol | Math History Tools</title>
+    
+    <!-- Load Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* Custom scrollbars */
+        .hide-scrollbar::-webkit-scrollbar { height: 8px; width: 8px; }
+        .hide-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .hide-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .hide-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Ancient font sizing & spacing for visual clarity */
+        .ancient-symbol { letter-spacing: 2px; }
+        .cuneiform { font-size: 1.75rem; color: #2563eb; } /* blue-600 */
+        .hieroglyph { font-size: 1.5rem; font-weight: bold; }
+        .greek-text { font-family: "Times New Roman", Times, serif; letter-spacing: 4px; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen pb-16">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+            <div class="font-black text-xl tracking-tight text-slate-900 flex items-center gap-2">
+                <i data-lucide="layers" class="text-indigo-600"></i>
+                Abyss Protocol
+            </div>
+            <div class="text-sm font-medium text-slate-500 hidden md:flex items-center gap-4">
+                <span class="text-indigo-600 font-bold">Ancient Traditions</span>
+                <span class="text-slate-300">|</span>
+                <a href="modern.html" class="hover:text-indigo-600 transition-colors cursor-pointer">Modern Representations</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-16">
+
+        <!-- ========================================== -->
+        <!-- APP 1: UNIVERSAL NUMBER CONVERTER          -->
+        <!-- ========================================== -->
+        <section class="space-y-6">
+            <div class="space-y-2">
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="globe-2" class="w-6 h-6 text-blue-500"></i>
+                    Universal Number Rosetta Stone
+                </h2>
+                <p class="text-slate-500 text-sm">Convert a modern integer into the structural logic of 8 distinct historical mathematical traditions.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 md:p-8 shadow-sm border border-slate-200">
+                <!-- Input Box -->
+                <div class="flex flex-col md:flex-row md:items-center gap-4 bg-slate-50 p-6 rounded-xl border border-slate-100 mb-8">
+                    <label for="numberInput" class="font-bold text-slate-700 text-lg flex-grow">Enter a number to translate (1 - 5000):</label>
+                    <input type="number" id="numberInput" min="1" max="5000" value="145" 
+                           class="w-full md:w-48 p-4 border-2 border-indigo-200 rounded-xl text-2xl font-black text-center text-indigo-900 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition-all shadow-inner">
+                </div>
+
+                <!-- 8-Grid Output -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    
+                    <!-- 1. Egyptian -->
+                    <div class="border-2 border-yellow-200 bg-yellow-50/50 rounded-xl p-5 flex flex-col h-40">
+                        <div class="flex justify-between items-start mb-auto">
+                            <span class="font-bold text-yellow-800">Egyptian</span>
+                            <span class="text-[10px] uppercase font-bold text-yellow-600/70 bg-yellow-200/50 px-2 py-1 rounded">Base-10 Additive</span>
+                        </div>
+                        <div id="out-egyptian" class="hieroglyph text-yellow-700 flex flex-wrap gap-1 mt-4"></div>
+                    </div>
+
+                    <!-- 2. Babylonian -->
+                    <div class="border-2 border-blue-200 bg-blue-50/50 rounded-xl p-5 flex flex-col h-40">
+                        <div class="flex justify-between items-start mb-auto">
+                            <span class="font-bold text-blue-800">Babylonian</span>
+                            <span class="text-[10px] uppercase font-bold text-blue-600/70 bg-blue-200/50 px-2 py-1 rounded">Base-60 Positional</span>
+                        </div>
+                        <div id="out-babylonian" class="cuneiform ancient-symbol flex gap-4 mt-4"></div>
+                    </div>
+
+                    <!-- 3. Roman -->
+                    <div class="border-2 border-slate-300 bg-slate-50 rounded-xl p-5 flex flex-col h-40">
+                        <div class="flex justify-between items-start mb-auto">
+                            <span class="font-bold text-slate-700">Roman</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-500 bg-slate-200/50 px-2 py-1 rounded">Subtractive</span>
+                        </div>
+                        <div id="out-roman" class="text-3xl font-serif tracking-widest text-slate-800 mt-4"></div>
+                    </div>
+
+                    <!-- 4. Greek -->
+                    <div class="border-2 border-emerald-200 bg-emerald-50/50 rounded-xl p-5 flex flex-col h-40">
+                        <div class="flex justify-between items-start mb-auto">
+                            <span class="font-bold text-emerald-800">Greek (Ionic)</span>
+                            <span class="text-[10px] uppercase font-bold text-emerald-600/70 bg-emerald-200/50 px-2 py-1 rounded">Alphabetic</span>
+                        </div>
+                        <div id="out-greek" class="text-3xl greek-text text-emerald-800 mt-4"></div>
+                    </div>
+
+                    <!-- 5. Chinese -->
+                    <div class="border-2 border-red-200 bg-red-50/50 rounded-xl p-5 flex flex-col h-40">
+                        <div class="flex justify-between items-start mb-auto">
+                            <span class="font-bold text-red-800">Chinese</span>
+                            <span class="text-[10px] uppercase font-bold text-red-600/70 bg-red-200/50 px-2 py-1 rounded">Multiplicative</span>
+                        </div>
+                        <div id="out-chinese" class="text-3xl font-bold tracking-widest text-red-700 mt-4"></div>
+                    </div>
+
+                    <!-- 6. Indian -->
+                    <div class="border-2 border-purple-200 bg-purple-50/50 rounded-xl p-5 flex flex-col h-40">
+                        <div class="flex justify-between items-start mb-auto">
+                            <span class="font-bold text-purple-800">Indian (Devanagari)</span>
+                            <span class="text-[10px] uppercase font-bold text-purple-600/70 bg-purple-200/50 px-2 py-1 rounded">Base-10 Positional</span>
+                        </div>
+                        <div id="out-indian" class="text-4xl font-medium tracking-widest text-purple-800 mt-4"></div>
+                    </div>
+
+                    <!-- 7. Islamic -->
+                    <div class="border-2 border-teal-200 bg-teal-50/50 rounded-xl p-5 flex flex-col h-40">
+                        <div class="flex justify-between items-start mb-auto">
+                            <span class="font-bold text-teal-800">Islamic (Arabic)</span>
+                            <span class="text-[10px] uppercase font-bold text-teal-600/70 bg-teal-200/50 px-2 py-1 rounded">Base-10 Positional</span>
+                        </div>
+                        <div id="out-islamic" class="text-4xl font-medium tracking-widest text-teal-800 mt-4" dir="rtl"></div>
+                    </div>
+
+                    <!-- 8. Modern -->
+                    <div class="border-2 border-slate-800 bg-slate-800 rounded-xl p-5 flex flex-col h-40">
+                        <div class="flex justify-between items-start mb-auto">
+                            <span class="font-bold text-white">Modern</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-300 bg-slate-700 px-2 py-1 rounded">Hindu-Arabic</span>
+                        </div>
+                        <div id="out-modern" class="text-4xl font-black tracking-widest text-white mt-4"></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <hr class="border-slate-200">
+
+        <!-- ========================================== -->
+        <!-- APP 2: MATH TRADITIONS DASHBOARD           -->
+        <!-- ========================================== -->
+        <section class="space-y-6">
+            <div class="space-y-2">
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="git-branch" class="w-6 h-6 text-indigo-500"></i>
+                    Systemic Math Traditions
+                </h2>
+                <p class="text-slate-500 text-sm">Select up to 4 traditions below to compare their architectural optimizations side-by-side.</p>
+            </div>
+
+            <div id="selection-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                <!-- Buttons injected by JavaScript -->
+            </div>
+
+            <div id="comparison-container" class="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-200 mt-6 hidden">
+                <div class="overflow-x-auto pb-4 hide-scrollbar">
+                    <div id="comparison-track" class="flex gap-4 md:gap-6 min-w-max">
+                        <!-- Cards injected by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- UNIFIED JAVASCRIPT LOGIC                   -->
+    <!-- ========================================== -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        /* -------------------------------------------------------------
+           APP 1 LOGIC: UNIVERSAL NUMBER CONVERTER
+        ------------------------------------------------------------- */
+        const inputField = document.getElementById("numberInput");
+        
+        // Output targets
+        const domBabylonian = document.getElementById("out-babylonian");
+        const domEgyptian = document.getElementById("out-egyptian");
+        const domRoman = document.getElementById("out-roman");
+        const domGreek = document.getElementById("out-greek");
+        const domChinese = document.getElementById("out-chinese");
+        const domIndian = document.getElementById("out-indian");
+        const domIslamic = document.getElementById("out-islamic");
+        const domModern = document.getElementById("out-modern");
+
+        // Constants for visual representations
+        const EGYPT_1000 = "𓆼";
+        const EGYPT_100 = "𓍢";  
+        const EGYPT_10 = "𓎆";  
+        const EGYPT_1 = "|";  
+        
+        const BABY_10 = "◀";
+        const BABY_1 = "▼";
+
+        function updateConverter() {
+            let val = parseInt(inputField.value);
+            if (isNaN(val) || val < 1) val = 1;
+            if (val > 5000) val = 5000; // Limit for memory/UI safety
+
+            // 1. Egyptian (Base-10 Additive)
+            const th = Math.floor(val / 1000);
+            const h = Math.floor((val % 1000) / 100);
+            const t = Math.floor((val % 100) / 10);
+            const o = val % 10;
+            domEgyptian.innerHTML = 
+                `<span class="text-green-700">${EGYPT_1000.repeat(th)}</span>` +
+                `<span class="text-orange-500">${EGYPT_100.repeat(h)}</span>` +
+                `<span class="text-red-600">${EGYPT_10.repeat(t)}</span>` +
+                `<span class="text-purple-700 tracking-[4px]">${EGYPT_1.repeat(o)}</span>`;
+
+            // 2. Babylonian (Base-60 Positional)
+            const sixties = Math.floor(val / 60);
+            const units = val % 60;
+            let babHtml = '';
+            const genBaby = (v) => BABY_10.repeat(Math.floor(v/10)) + " " + BABY_1.repeat(v%10);
+            if (sixties > 0) babHtml += `<span>${genBaby(sixties).trim()}</span>`;
+            if (units > 0 || sixties === 0) babHtml += `<span>${genBaby(units).trim()}</span>`;
+            domBabylonian.innerHTML = babHtml || "0";
+
+            // 3. Roman (Subtractive)
+            domRoman.innerText = toRoman(val);
+
+            // 4. Greek (Ionic / Alphabetic)
+            domGreek.innerText = toGreek(val);
+
+            // 5. Chinese (Multiplicative Additive)
+            domChinese.innerText = toChinese(val);
+
+            // 6. Indian (Devanagari Positional)
+            const devanagariMap = ['०','१','२','३','४','५','६','७','८','९'];
+            domIndian.innerText = val.toString().split('').map(d => devanagariMap[d]).join('');
+
+            // 7. Islamic (Eastern Arabic Positional)
+            const arabicMap = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+            domIslamic.innerText = val.toString().split('').map(d => arabicMap[d]).join('');
+
+            // 8. Modern
+            domModern.innerText = val.toLocaleString();
+        }
+
+        // Conversion Helper Functions
+        function toRoman(num) {
+            const map = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+            let res = '';
+            for (let key in map) {
+                while (num >= map[key]) {
+                    res += key;
+                    num -= map[key];
+                }
+            }
+            return res;
+        }
+
+        function toGreek(num) {
+            const units = ['','α','β','γ','δ','ε','ϛ','ζ','η','θ'];
+            const tens = ['','ι','κ','λ','μ','ν','ξ','ο','π','ϟ'];
+            const hundreds = ['','ρ','σ','τ','υ','φ','χ','ψ','ω','ϡ'];
+            const thousands = ['','͵α','͵β','͵γ','͵δ','͵ε']; 
+            
+            let u = num % 10;
+            let t = Math.floor((num % 100) / 10);
+            let h = Math.floor((num % 1000) / 100);
+            let th = Math.floor((num % 10000) / 1000);
+            
+            return thousands[th] + hundreds[h] + tens[t] + units[u];
+        }
+
+        function toChinese(num) {
+            const digits = ['零','一','二','三','四','五','六','七','八','九'];
+            const units = ['','十','百','千'];
+            let str = num.toString();
+            let res = '';
+            for(let i=0; i<str.length; i++) {
+                let n = parseInt(str[i]);
+                let u = str.length - 1 - i;
+                if (n !== 0) {
+                    res += digits[n] + units[u];
+                } else {
+                    if (res[res.length-1] !== '零' && i !== str.length -1) res += '零';
+                }
+            }
+            res = res.replace(/零$/, '');
+            if (res.startsWith('一十')) res = res.replace('一十', '十'); // Stylistic correction for 10-19
+            return res;
+        }
+
+        inputField.addEventListener("input", updateConverter);
+        updateConverter(); // Initial run
+
+
+        /* -------------------------------------------------------------
+           APP 2 LOGIC: MATH TRADITIONS DASHBOARD
+        ------------------------------------------------------------- */
+        const traditions = [
+            { id: 'egyptian', name: 'Egyptian', era: 'c. 3000 BCE - 300 BCE', icon: 'tent', optimization: 'Optimized for representing and solving practical physical problems.', features: ['Base-10 Additive', 'Unit Fractions', 'Practical Geometry', 'Volume/Area calculations'], theme: { border: 'border-yellow-500', bg: 'bg-yellow-50', text: 'text-yellow-600', dot: 'bg-yellow-500' } },
+            { id: 'babylonian', name: 'Babylonian', era: 'c. 3000 BCE - 300 BCE', icon: 'calculator', optimization: 'Optimized for efficient numerical computation.', features: ['Base-60 Positional', 'True Fractions', 'Advanced Algebra', 'Algorithmic Tables'], theme: { border: 'border-blue-500', bg: 'bg-blue-50', text: 'text-blue-600', dot: 'bg-blue-500' } },
+            { id: 'greek', name: 'Greek', era: 'c. 600 BCE - 300 CE', icon: 'book-open', optimization: 'Optimized for proving that mathematical statements are logically true.', features: ['Axiomatic Systems', 'Deductive Proofs', 'Theoretical Geometry', 'Irrational Numbers'], theme: { border: 'border-emerald-500', bg: 'bg-emerald-50', text: 'text-emerald-600', dot: 'bg-emerald-500' } },
+            { id: 'indian', name: 'Indian', era: 'c. 1200 BCE - 1800 CE', icon: 'circle-dot', optimization: 'Optimized for efficient symbolic representation using zero and place value.', features: ['Base-10 Positional', 'Invention of Zero', 'Negative Numbers', 'Early Trigonometry/Calculus'], theme: { border: 'border-purple-500', bg: 'bg-purple-50', text: 'text-purple-600', dot: 'bg-purple-500' } },
+            { id: 'chinese', name: 'Chinese', era: 'c. 1000 BCE - 1300 CE', icon: 'layout-grid', optimization: 'Optimized for systematic computation and solving collections of equations.', features: ['Rod Numerals', 'Matrix Mathematics', 'Systems of Linear Equations', 'Modular Arithmetic'], theme: { border: 'border-red-500', bg: 'bg-red-50', text: 'text-red-600', dot: 'bg-red-500' } },
+            { id: 'islamic', name: 'Islamic', era: 'c. 800 CE - 1500 CE', icon: 'git-branch', optimization: 'Optimized for general methods and algorithmic procedures.', features: ['Formal Algebra', 'Algorithm Design', 'Spherical Trigonometry', 'Synthesis of Greek & Indian math'], theme: { border: 'border-teal-500', bg: 'bg-teal-50', text: 'text-teal-600', dot: 'bg-teal-500' } },
+            { id: 'modern', name: 'Modern', era: 'c. 1600 CE - Present', icon: 'network', optimization: 'Aims to describe relationships of every kind, from physical quantities to abstract structures.', features: ['Calculus', 'Set Theory', 'Abstract Algebra', 'Topology & Computational Math'], theme: { border: 'border-slate-800', bg: 'bg-slate-100', text: 'text-slate-800', dot: 'bg-slate-800' } }
+        ];
+
+        let selectedIds = ['egyptian', 'babylonian', 'greek', 'indian'];
+        const gridEl = document.getElementById('selection-grid');
+        const containerEl = document.getElementById('comparison-container');
+        const trackEl = document.getElementById('comparison-track');
+
+        function toggleSelection(id) {
+            if (selectedIds.includes(id)) {
+                selectedIds = selectedIds.filter(item => item !== id);
+            } else {
+                if (selectedIds.length >= 4) selectedIds.shift(); 
+                selectedIds.push(id);
+            }
+            renderDashboard();
+        }
+
+        function renderDashboard() {
+            gridEl.innerHTML = traditions.map(t => {
+                const isSelected = selectedIds.includes(t.id);
+                const activeClasses = isSelected ? `${t.theme.border} ${t.theme.bg} shadow-md` : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50';
+                return `
+                    <button onclick="toggleSelection('${t.id}')" class="p-3 rounded-xl border-2 text-left transition-all duration-200 flex flex-col items-center text-center gap-2 cursor-pointer outline-none select-none ${activeClasses}">
+                        <div class="${isSelected ? t.theme.text : 'text-slate-400'}"><i data-lucide="${t.icon}" class="w-6 h-6"></i></div>
+                        <div class="font-bold text-sm ${isSelected ? t.theme.text : 'text-slate-600'}">${t.name}</div>
+                    </button>`;
+            }).join('');
+
+            if (selectedIds.length === 0) {
+                containerEl.classList.add('hidden');
+            } else {
+                containerEl.classList.remove('hidden');
+                const selectedData = traditions.filter(t => selectedIds.includes(t.id)).sort((a, b) => selectedIds.indexOf(a.id) - selectedIds.indexOf(b.id));
+                
+                trackEl.innerHTML = selectedData.map(t => `
+                    <div class="w-72 md:w-80 flex-shrink-0 flex flex-col h-full">
+                        <div class="${t.theme.bg} border-t-4 ${t.theme.border} p-4 rounded-t-xl">
+                            <div class="flex items-center gap-2 mb-1 ${t.theme.text}">
+                                <i data-lucide="${t.icon}" class="w-5 h-5"></i>
+                                <h3 class="font-bold text-lg">${t.name}</h3>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium">${t.era}</span>
+                        </div>
+                        <div class="border border-slate-100 p-4 border-t-0 bg-slate-50/50 min-h-[100px]">
+                            <div class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-2">System Optimization</div>
+                            <p class="text-sm font-medium leading-relaxed text-slate-700">"${t.optimization}"</p>
+                        </div>
+                        <div class="border border-slate-100 p-4 border-t-0 rounded-b-xl flex-grow bg-white">
+                            <div class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-3">Key Innovations</div>
+                            <ul class="space-y-2.5">
+                                ${t.features.map(f => `<li class="text-sm text-slate-600 flex items-start gap-2.5 leading-snug"><span class="mt-1.5 h-1.5 w-1.5 rounded-full flex-shrink-0 ${t.theme.dot}"></span>${f}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>`).join('');
+            }
+            lucide.createIcons();
+        }
+
+        renderDashboard(); 
+    </script>
+</body>
+</html>

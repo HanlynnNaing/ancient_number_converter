@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Mathematical Representations</title>
+    
+    <!-- Load Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* Custom scrollbar for the comparison view */
+        .hide-scrollbar::-webkit-scrollbar { height: 8px; }
+        .hide-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .hide-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .hide-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen pb-16">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+            <div class="font-black text-xl tracking-tight text-slate-900 flex items-center gap-2">
+                <i data-lucide="layers" class="text-indigo-600"></i>
+                Abyss Protocol
+            </div>
+            <div class="text-sm font-medium text-slate-500 hidden md:flex items-center gap-4">
+                <a href="index.html" class="hover:text-indigo-600 transition-colors cursor-pointer">Ancient Traditions</a>
+                <span class="text-slate-300">|</span>
+                <span class="text-indigo-600 font-bold">Modern Representations</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-12">
+
+        <!-- Header -->
+        <header class="text-center space-y-4 max-w-3xl mx-auto">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                Modern Data Structures
+            </h1>
+            <p class="text-slate-500 md:text-lg">
+                Modern mathematics isn't tied to a single format. Select a representation below to explore how it processes information.
+            </p>
+        </header>
+
+        <!-- Selection Grid -->
+        <section>
+            <div id="selection-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 lg:gap-4">
+                <!-- Buttons injected by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Interactive Sandbox Panel -->
+        <section id="sandbox-container" class="bg-white rounded-2xl p-5 md:p-8 shadow-xl border border-slate-200 hidden transition-all">
+            <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+                 <h2 id="sandbox-title" class="text-2xl font-bold flex items-center gap-3">
+                    <!-- Title injected here -->
+                </h2>
+                <div class="text-xs font-bold tracking-widest text-slate-400 uppercase bg-slate-100 px-3 py-1 rounded-full">Interactive Sandbox</div>
+            </div>
+
+            <!-- The area where the interactive tools live -->
+            <div id="sandbox-workspace" class="min-h-[300px] flex items-center justify-center bg-slate-50 rounded-xl border border-slate-200 p-6 relative overflow-hidden">
+                <!-- Interactive tools injected here -->
+            </div>
+            
+            <div id="sandbox-explanation" class="mt-6 text-slate-600 bg-blue-50/50 border border-blue-100 p-4 rounded-xl text-sm leading-relaxed">
+                <!-- Explanation injected here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 text-slate-400 text-sm">
+        <p>&copy; 2026 Abyss Protocol. Modern Math Dashboard.</p>
+    </footer>
+
+    <script>
+        // Data Model & Sandbox Logic
+        const modernSystems = [
+            {
+                id: 'binary', name: 'Binary (Base-2)', icon: 'cpu',
+                theme: { border: 'border-emerald-500', bg: 'bg-emerald-50', text: 'text-emerald-600' },
+                explanation: '<strong>How it works:</strong> Each switch represents a "bit" with a value of either 0 or 1. Every position doubles in value from right to left (1, 2, 4, 8, 16...). This simple on/off logic is the foundation of all computer processors.',
+                renderSandbox: () => {
+                    const workspace = document.getElementById('sandbox-workspace');
+                    workspace.innerHTML = `
+                        <div class="flex flex-col items-center gap-8 w-full max-w-2xl">
+                            <div class="text-6xl font-black text-slate-800" id="binary-total">0</div>
+                            <div class="text-sm font-bold text-slate-400 uppercase tracking-widest">Decimal Total</div>
+                            
+                            <div class="flex gap-2 sm:gap-4 w-full justify-center">
+                                ${[128, 64, 32, 16, 8, 4, 2, 1].map(val => `
+                                    <div class="flex flex-col items-center gap-2">
+                                        <div class="text-xs font-bold text-emerald-600">${val}</div>
+                                        <button class="binary-switch w-10 h-16 bg-slate-200 rounded-lg border-b-4 border-slate-300 shadow-inner transition-all relative overflow-hidden group" data-val="${val}" data-state="0">
+                                            <div class="absolute inset-0 bg-emerald-500 opacity-0 group-[.active]:opacity-100 transition-opacity"></div>
+                                            <span class="relative z-10 font-black text-xl text-slate-400 group-[.active]:text-white">0</span>
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+
+                    const switches = workspace.querySelectorAll('.binary-switch');
+                    const totalEl = document.getElementById('binary-total');
+
+                    switches.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const currentState = btn.getAttribute('data-state');
+                            const newState = currentState === '0' ? '1' : '0';
+                            btn.setAttribute('data-state', newState);
+                            btn.querySelector('span').innerText = newState;
+                            btn.classList.toggle('active');
+
+                            // Calculate new total
+                            let sum = 0;
+                            switches.forEach(s => {
+                                if(s.getAttribute('data-state') === '1') {
+                                    sum += parseInt(s.getAttribute('data-val'));
+                                }
+                            });
+                            totalEl.innerText = sum;
+                        });
+                    });
+                }
+            },
+            {
+                id: 'hex', name: 'Hexadecimal', icon: 'code',
+                theme: { border: 'border-fuchsia-500', bg: 'bg-fuchsia-50', text: 'text-fuchsia-600' },
+                explanation: '<strong>How it works:</strong> Hexadecimal uses Base-16 (0-9, then A-F). It is incredibly dense. The sliders below mix Red, Green, and Blue light from 0 to 255. Hex allows us to write that exact color combination using just 6 characters, saving massive amounts of memory in visual computing.',
+                renderSandbox: () => {
+                    const workspace = document.getElementById('sandbox-workspace');
+                    workspace.innerHTML = `
+                        <div class="flex flex-col md:flex-row items-center gap-8 w-full max-w-3xl">
+                            <!-- Color Display -->
+                            <div id="hex-preview" class="w-48 h-48 rounded-2xl shadow-inner border-4 border-white bg-[#000000] flex items-center justify-center transition-colors">
+                                <div id="hex-code" class="bg-black/50 text-white font-mono text-xl font-bold px-4 py-2 rounded-lg backdrop-blur-sm">#000000</div>
+                            </div>
+
+                            <!-- Sliders -->
+                            <div class="flex-grow space-y-6 w-full">
+                                <div class="space-y-2">
+                                    <div class="flex justify-between text-xs font-bold text-slate-500 uppercase"><span>Red</span> <span id="r-val">0</span></div>
+                                    <input type="range" id="hex-r" min="0" max="255" value="0" class="w-full accent-red-500">
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between text-xs font-bold text-slate-500 uppercase"><span>Green</span> <span id="g-val">0</span></div>
+                                    <input type="range" id="hex-g" min="0" max="255" value="0" class="w-full accent-green-500">
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between text-xs font-bold text-slate-500 uppercase"><span>Blue</span> <span id="b-val">0</span></div>
+                                    <input type="range" id="hex-b" min="0" max="255" value="0" class="w-full accent-blue-500">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    const r = document.getElementById('hex-r');
+                    const g = document.getElementById('hex-g');
+                    const b = document.getElementById('hex-b');
+                    const preview = document.getElementById('hex-preview');
+                    const code = document.getElementById('hex-code');
+
+                    const updateHex = () => {
+                        const rHex = parseInt(r.value).toString(16).padStart(2, '0');
+                        const gHex = parseInt(g.value).toString(16).padStart(2, '0');
+                        const bHex = parseInt(b.value).toString(16).padStart(2, '0');
+                        const finalHex = `#${rHex}${gHex}${bHex}`.toUpperCase();
+                        
+                        document.getElementById('r-val').innerText = r.value;
+                        document.getElementById('g-val').innerText = g.value;
+                        document.getElementById('b-val').innerText = b.value;
+                        
+                        preview.style.backgroundColor = finalHex;
+                        code.innerText = finalHex;
+                    };
+
+                    r.addEventListener('input', updateHex);
+                    g.addEventListener('input', updateHex);
+                    b.addEventListener('input', updateHex);
+                    updateHex(); // Init
+                }
+            },
+            {
+                id: 'complex', name: 'Complex Numbers', icon: 'activity',
+                theme: { border: 'border-indigo-500', bg: 'bg-indigo-50', text: 'text-indigo-600' },
+                explanation: '<strong>How it works:</strong> Complex numbers aren\'t actually "imaginary." They are a mathematical trick to handle 2D rotation. Drag the point below. The Real axis (left/right) and Imaginary axis (up/down) act as coordinates to perfectly describe rotation and phase, which is why they are used to model quantum mechanics and electrical currents.',
+                renderSandbox: () => {
+                    const workspace = document.getElementById('sandbox-workspace');
+                    workspace.innerHTML = `
+                        <div class="flex flex-col md:flex-row items-center gap-8 w-full max-w-3xl">
+                            <!-- Coordinate Plane -->
+                            <div class="relative w-64 h-64 border-2 border-slate-200 bg-white rounded-xl shadow-inner overflow-hidden">
+                                <!-- Axes -->
+                                <div class="absolute inset-x-0 top-1/2 h-px bg-slate-300"></div>
+                                <div class="absolute inset-y-0 left-1/2 w-px bg-slate-300"></div>
+                                <div class="absolute top-2 left-1/2 ml-2 text-[10px] font-bold text-slate-400">Imaginary (i)</div>
+                                <div class="absolute right-2 top-1/2 mt-2 text-[10px] font-bold text-slate-400">Real</div>
+                                
+                                <!-- Interactive Dot & Line -->
+                                <div id="complex-line" class="absolute top-1/2 left-1/2 h-0.5 bg-indigo-500 origin-left" style="width: 50px; transform: rotate(-45deg);"></div>
+                                <div id="complex-dot" class="absolute w-6 h-6 -ml-3 -mt-3 bg-indigo-600 border-2 border-white rounded-full shadow-md cursor-grab active:cursor-grabbing z-10 flex items-center justify-center text-white text-[10px] font-bold" style="left: calc(50% + 35px); top: calc(50% - 35px);"></div>
+                            </div>
+
+                            <!-- Live Equation -->
+                            <div class="flex-grow space-y-4 text-center md:text-left">
+                                <div class="text-sm font-bold text-slate-400 uppercase tracking-widest">Complex Form (a + bi)</div>
+                                <div class="text-4xl font-black text-indigo-600 font-mono tracking-tighter" id="complex-equation">
+                                    0.5 <span class="text-slate-400 font-sans font-medium mx-1">+</span> 0.5i
+                                </div>
+                                <div class="text-sm text-slate-500 bg-white p-3 rounded-lg border border-slate-100 mt-4">
+                                    Radius (Magnitude): <strong id="complex-mag">0.71</strong> <br>
+                                    Angle (Phase): <strong id="complex-ang">45°</strong>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    const dot = document.getElementById('complex-dot');
+                    const line = document.getElementById('complex-line');
+                    const equation = document.getElementById('complex-equation');
+                    const magText = document.getElementById('complex-mag');
+                    const angText = document.getElementById('complex-ang');
+                    
+                    let isDragging = false;
+                    const center = 128; // Half of 256px container
+                    const maxRadius = 120;
+
+                    const updateMath = (x, y) => {
+                        // Math relative to center
+                        const mathX = x - center;
+                        const mathY = center - y; // Invert Y so up is positive
+                        
+                        // Limit to circle
+                        let r = Math.sqrt(mathX*mathX + mathY*mathY);
+                        let finalX = mathX;
+                        let finalY = mathY;
+
+                        if(r > maxRadius) {
+                            finalX = (mathX / r) * maxRadius;
+                            finalY = (mathY / r) * maxRadius;
+                            r = maxRadius;
+                        }
+
+                        // UI Positioning
+                        const uiX = center + finalX;
+                        const uiY = center - finalY;
+                        
+                        dot.style.left = `${uiX}px`;
+                        dot.style.top = `${uiY}px`;
+                        
+                        // Line update
+                        const angle = Math.atan2(-finalY, finalX);
+                        const angleDeg = angle * (180 / Math.PI);
+                        line.style.width = `${r}px`;
+                        line.style.transform = `rotate(${angleDeg}deg)`;
+
+                        // Text Updates (Normalize to 1.0)
+                        const normX = (finalX / maxRadius).toFixed(2);
+                        const normY = (finalY / maxRadius).toFixed(2);
+                        const normR = (r / maxRadius).toFixed(2);
+                        
+                        let angDisplay = Math.round(-angleDeg);
+                        if(angDisplay < 0) angDisplay += 360;
+
+                        const sign = normY >= 0 ? '+' : '-';
+                        equation.innerHTML = `${normX} <span class="text-slate-400 font-sans font-medium mx-1">${sign}</span> ${Math.abs(normY)}i`;
+                        magText.innerText = normR;
+                        angText.innerText = `${angDisplay}°`;
+                    };
+
+                    // Initial state
+                    updateMath(center + 60, center - 60);
+
+                    // Drag logic (Simple implementation for demo)
+                    dot.addEventListener('mousedown', () => isDragging = true);
+                    document.addEventListener('mouseup', () => isDragging = false);
+                    document.addEventListener('mousemove', (e) => {
+                        if(!isDragging) return;
+                        const rect = dot.parentElement.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        updateMath(x, y);
+                    });
+                    
+                    // Touch support
+                    dot.addEventListener('touchstart', (e) => { isDragging = true; e.preventDefault(); }, {passive: false});
+                    document.addEventListener('touchend', () => isDragging = false);
+                    document.addEventListener('touchmove', (e) => {
+                        if(!isDragging) return;
+                        e.preventDefault();
+                        const rect = dot.parentElement.getBoundingClientRect();
+                        const x = e.touches[0].clientX - rect.left;
+                        const y = e.touches[0].clientY - rect.top;
+                        updateMath(x, y);
+                    }, {passive: false});
+                }
+            },
+             {
+                id: 'vectors', name: 'Vectors', icon: 'move-up-right',
+                theme: { border: 'border-amber-500', bg: 'bg-amber-50', text: 'text-amber-600' },
+                explanation: '<strong>How it works:</strong> A vector is a mathematical object that has both a magnitude (length) and a direction. Unlike a standard number (scalar) which just tells you "how much", a vector tells you "how much" AND "which way". This is the mathematical framework for all physics simulations, wind, and velocities.',
+                renderSandbox: () => {
+                     const workspace = document.getElementById('sandbox-workspace');
+                     workspace.innerHTML = `
+                         <div class="flex flex-col md:flex-row items-center gap-8 w-full max-w-3xl">
+                             <!-- Grid -->
+                             <div class="relative w-64 h-64 border-2 border-slate-200 bg-slate-100 rounded-xl overflow-hidden vector-grid" style="background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px); background-size: 10% 10%;">
+                                 
+                                 <!-- Vector Arrow -->
+                                 <svg class="absolute inset-0 w-full h-full pointer-events-none" style="overflow: visible;">
+                                     <defs>
+                                         <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                             <polygon points="0 0, 10 3.5, 0 7" fill="#d97706" />
+                                         </marker>
+                                     </defs>
+                                     <line id="vector-line" x1="128" y1="128" x2="200" y2="60" stroke="#d97706" stroke-width="4" marker-end="url(#arrowhead)" />
+                                 </svg>
+                                 
+                                 <!-- Draggable Head -->
+                                 <div id="vector-head" class="absolute w-8 h-8 -ml-4 -mt-4 bg-amber-500/20 border-2 border-amber-500 rounded-full cursor-grab active:cursor-grabbing z-10" style="left: 200px; top: 60px;"></div>
+                             </div>
+ 
+                             <!-- Readout -->
+                             <div class="flex-grow space-y-4 w-full text-center md:text-left">
+                                 <div class="text-sm font-bold text-slate-400 uppercase tracking-widest">Vector Notation [x, y]</div>
+                                 <div class="text-4xl font-black text-amber-600 font-mono tracking-tighter" id="vector-notation">
+                                     [7.2, 6.8]
+                                 </div>
+                                 <div class="flex gap-4 justify-center md:justify-start mt-4">
+                                     <div class="bg-white p-3 rounded-lg border border-slate-100 flex-1">
+                                         <div class="text-xs text-slate-400 font-bold uppercase mb-1">Magnitude</div>
+                                         <div class="text-xl font-bold text-slate-700" id="vector-mag">9.90</div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     `;
+ 
+                     const head = document.getElementById('vector-head');
+                     const line = document.getElementById('vector-line');
+                     const notation = document.getElementById('vector-notation');
+                     const magDisplay = document.getElementById('vector-mag');
+                     
+                     let isDragging = false;
+                     const center = 128; // 256 / 2
+                     const step = 25.6; // 256 / 10 (grid squares)
+ 
+                     const updateVector = (x, y) => {
+                         // Bound inside box
+                         x = Math.max(0, Math.min(256, x));
+                         y = Math.max(0, Math.min(256, y));
+ 
+                         // Update UI
+                         head.style.left = `${x}px`;
+                         head.style.top = `${y}px`;
+                         line.setAttribute('x2', x);
+                         line.setAttribute('y2', y);
+ 
+                         // Math (Relative to center, mapped to a 10x10 grid scale)
+                         const mathX = (x - center) / step;
+                         const mathY = (center - y) / step; // Invert Y
+                         
+                         const mag = Math.sqrt(mathX*mathX + mathY*mathY);
+ 
+                         notation.innerText = `[${mathX.toFixed(1)}, ${mathY.toFixed(1)}]`;
+                         magDisplay.innerText = mag.toFixed(2);
+                     };
+ 
+                     // Init
+                     updateVector(200, 60);
+ 
+                     // Drag Logic
+                     head.addEventListener('mousedown', () => isDragging = true);
+                     document.addEventListener('mouseup', () => isDragging = false);
+                     document.addEventListener('mousemove', (e) => {
+                         if(!isDragging) return;
+                         const rect = head.parentElement.getBoundingClientRect();
+                         updateVector(e.clientX - rect.left, e.clientY - rect.top);
+                     });
+                     
+                     // Touch support
+                     head.addEventListener('touchstart', (e) => { isDragging = true; e.preventDefault(); }, {passive: false});
+                     document.addEventListener('touchend', () => isDragging = false);
+                     document.addEventListener('touchmove', (e) => {
+                         if(!isDragging) return;
+                         e.preventDefault();
+                         const rect = head.parentElement.getBoundingClientRect();
+                         updateVector(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+                     }, {passive: false});
+                 }
+             }
+        ];
+
+        // State
+        let currentSystemId = null;
+
+        // DOM Elements
+        const gridEl = document.getElementById('selection-grid');
+        const containerEl = document.getElementById('sandbox-container');
+        const titleEl = document.getElementById('sandbox-title');
+        const explanationEl = document.getElementById('sandbox-explanation');
+
+        function selectSystem(id) {
+            currentSystemId = id;
+            render();
+            
+            const system = modernSystems.find(s => s.id === id);
+            
+            // Setup the sandbox UI
+            titleEl.innerHTML = `<i data-lucide="${system.icon}" class="w-8 h-8 ${system.theme.text}"></i> <span class="${system.theme.text}">${system.name}</span>`;
+            explanationEl.innerHTML = system.explanation;
+            
+            // Clear current workspace and let the system render its specific sandbox
+            document.getElementById('sandbox-workspace').innerHTML = '';
+            system.renderSandbox();
+            
+            containerEl.classList.remove('hidden');
+            lucide.createIcons();
+            
+            // Scroll to sandbox smoothly
+            containerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function render() {
+            // Render the grid buttons
+            gridEl.innerHTML = modernSystems.map(system => {
+                const isSelected = currentSystemId === system.id;
+                const activeClasses = isSelected 
+                    ? `${system.theme.border} ${system.theme.bg} shadow-md scale-105 ring-4 ring-offset-2 ring-[${system.theme.border.split('-')[1]}-200]` 
+                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 hover:-translate-y-1';
+                
+                return `
+                    <button onclick="selectSystem('${system.id}')" 
+                            class="p-4 rounded-2xl border-2 text-left transition-all duration-300 flex flex-col items-center text-center gap-3 cursor-pointer outline-none select-none ${activeClasses}">
+                        <div class="p-3 rounded-full ${isSelected ? 'bg-white shadow-sm' : 'bg-slate-100'} ${isSelected ? system.theme.text : 'text-slate-400'} transition-colors duration-300">
+                            <i data-lucide="${system.icon}" class="w-6 h-6"></i>
+                        </div>
+                        <div class="font-bold text-sm ${isSelected ? system.theme.text : 'text-slate-600'}">
+                            ${system.name}
+                        </div>
+                    </button>`;
+            }).join('');
+            
+            lucide.createIcons();
+        }
+
+        // Boot the app
+        render(); 
+    </script>
+</body>
+</html>
